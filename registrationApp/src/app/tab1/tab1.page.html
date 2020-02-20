@@ -13,5 +13,8 @@
     </ion-toolbar>
   </ion-header>
 
-  <!--Hier moet u inhoud komen denk ik-->
+    <ion-signaturepad [(ngModel)]="signature" [canvasWidth]="300" [canvasHeight]="300" [backgroundColor]="#ffffff">
+      </ion-signature>
+
+      <p>{{signature}}</p>
 </ion-content>
