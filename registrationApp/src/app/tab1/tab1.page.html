@@ -35,10 +35,6 @@
     <ngx-qrcode [qrc-value]="qrData" [qrc-element-type]="elementType" qrc-class="my-code">
     </ngx-qrcode>
     <ion-card-content>
-      <ion-button expand="full" (click)="downloadQR()" color="tertiary" *ngIf="elementType==='canvas'">
-        <ion-icon name="download" slot="start"></ion-icon>
-        Download QR code
-      </ion-button>
     </ion-card-content>
   </ion-card>
 
