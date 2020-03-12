@@ -3,6 +3,7 @@ import { Map, tileLayer, marker } from 'leaflet';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 @Component({
   selector: 'app-tab2',
@@ -16,7 +17,8 @@ export class Tab2Page {
   address: string[];
   lat: number;
   lng: number;
-  constructor(private router: Router, public navController: NavController, private geolocation: Geolocation) {
+  constructor(private router: Router, public navController: NavController, private geolocation: Geolocation, private screenOrientation: ScreenOrientation) {
+    this.lockScreenRotation();
 
     this.geolocation.getCurrentPosition(
       {
@@ -48,6 +50,15 @@ export class Tab2Page {
   }
   goBack() {
     this.navController.navigateForward('/');
+  }
+
+  // set to landscape
+  lockScreenRotation() {
+    try {
+      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   bevestigingsKnop() {
