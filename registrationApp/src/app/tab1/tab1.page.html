@@ -7,33 +7,20 @@
 </ion-header>
 <ion-content>
 
-  <ion-item>
-    <ion-input type="text" placeholder="MY QR Code data" [(ngModel)]="qrData">
-    </ion-input>
-  </ion-item>
 
 
   <ion-segment [(ngModel)]="elementType">
-    <ion-segment-button value="canvas">
-      <ion-label>Canvas</ion-label>
-    </ion-segment-button>
     <ion-segment-button value="img">
-      <ion-label>Image</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="url">
-      <ion-label>URL</ion-label>
     </ion-segment-button>
   </ion-segment>
 
 
   <ion-button expand="full" (click)="scanCode()" color="secondary">
     <ion-icon name="qr-scanner"></ion-icon>
-    Scan Code
+    Camera Openen
   </ion-button>
 
   <ion-card *ngIf="qrData" text-center>
-    <ngx-qrcode [qrc-value]="qrData" [qrc-element-type]="elementType" qrc-class="my-code">
-    </ngx-qrcode>
     <ion-card-content>
     </ion-card-content>
   </ion-card>
@@ -44,5 +31,3 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
-
-
