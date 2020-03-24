@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { NavController, Platform } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-import { NativeGeocoder} from '@ionic-native/native-geocoder/ngx';
+import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 import { logging } from 'protractor';
 
 
@@ -32,12 +32,22 @@ export class Tab2Page {
     ).then((resp) => {
       alert(JSON.stringify(resp.coords));
 
-      this.lat = resp.coords.latitude
-      this.lng = resp.coords.longitude
-      
-      this.nativeGeocoder.reverseGeocode(this.lat, this.lng).then((results) => {
-      this.locatie = JSON.stringify(results[0]);
+      let options: NativeGeocoderOptions = {
+        useLocale: true,
+        maxResults: 5
+    };
+
+      this.lat = 51.238048
+      this.lng = 4.526831
+
+      // this.lat = resp.coords.latitude
+      // this.lng = resp.coords.longitude
+      this.nativeGeocoder.reverseGeocode(this.lat, this.lng, options)
+      .then((result: NativeGeocoderResult[]) => {
+        console.log(JSON.stringify(result[0]))
+        this.locatie= result[0].countryCode + "&" + result[0].locality + "&" + result[0].thoroughfare + "&" + result[0].subThoroughfare
       })
+      .catch((error: any) => console.log(error));
 
     }, er => {
       alert('Can not retrieve Location')
@@ -51,7 +61,7 @@ export class Tab2Page {
   }
 
   loadMap() {
-    this.map = new Map("mapId").setView([this.lat,this.lng], 30);
+    this.map = new Map("mapId").setView([this.lat, this.lng], 30);
     tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution:
         'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
@@ -66,8 +76,12 @@ export class Tab2Page {
     }
   }
 
+  goBack(){
+    this.navController.pop();
+  }
+
   bevestigingsKnop() {
-    this.navController.navigateForward('/handtekening/'+ this.locatie);
-  } 
+    this.navController.navigateForward('/handtekening/' + this.locatie);
+  }
 
 }

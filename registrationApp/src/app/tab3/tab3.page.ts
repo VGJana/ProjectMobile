@@ -25,9 +25,9 @@ export class Tab3Page {
     this.cards = JSON.parse(JSON.stringify(this.data));
   }
 
-ngOnInit(){
-  
-}
+  ngOnInit() {
+
+  }
   goBack() {
     this.navCtrl.pop();
   }
