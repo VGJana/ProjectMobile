@@ -8,19 +8,13 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-item style="cursor: pointer" (click)="locatePosition()">
-    <ion-button fill="clear">
-      <ion-icon slot="start" name="map"></ion-icon>
-      Locatie verifiëren
-    </ion-button>
-  </ion-item>
   <div id="mapId" style="height:500px"></div>
   <ion-item>
     <ion-icon slot="start" name="locate"></ion-icon>
-    <ion-label position="stacked">Locatie</ion-label>
+    <ion-label position="stacked">Locatie: {{this.address}}</ion-label>
     <ion-label position="stacked">Latitude: {{this.lat}}</ion-label>
     <ion-label position="stacked">Longitude: {{this.lng}}</ion-label>
-    <ion-textarea [(ngModel)]="address" type="text" style="margin-top:20px;"></ion-textarea>
+    <p class="item-text-wrap"></p>
   </ion-item>
   <ion-button shape="round" expand="block" (click)="bevestigingsKnop()">Bevestig locatie</ion-button>
 </ion-content>
