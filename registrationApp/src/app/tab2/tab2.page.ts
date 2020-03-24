@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { NavController, Platform } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions} from '@ionic-native/native-geocoder/ngx';
+import { NativeGeocoder} from '@ionic-native/native-geocoder/ngx';
+import { logging } from 'protractor';
 
 
 @Component({
@@ -20,7 +21,6 @@ export class Tab2Page {
   address: string[];
   lat: number;
   lng: number;
-  adres: string;
   constructor(private router: Router, public navController: NavController, private geolocation: Geolocation, private screenOrientation: ScreenOrientation, public nativeGeocoder: NativeGeocoder) {
     this.lockScreenRotation();
 
@@ -34,8 +34,10 @@ export class Tab2Page {
 
       this.lat = resp.coords.latitude
       this.lng = resp.coords.longitude
-
-      this.locatie = this.lat + "&" + this.lng;
+      
+      this.nativeGeocoder.reverseGeocode(this.lat, this.lng).then((results) => {
+      this.locatie = JSON.stringify(results[0]);
+      })
 
     }, er => {
       alert('Can not retrieve Location')
@@ -68,13 +70,4 @@ export class Tab2Page {
     this.navController.navigateForward('/handtekening/'+ this.locatie);
   } 
 
-  adresBepaling(){
-      var options: NativeGeocoderOptions = {
-      useLocale: true,
-      maxResults: 5
-    }
-    this.nativeGeocoder.reverseGeocode(this.lat, this.lng, options).then((results)=>{
-      this.adres = JSON.stringify(results[0]);
-  })
-  }
 }
