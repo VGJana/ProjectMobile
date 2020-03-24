@@ -12,6 +12,7 @@ export class Tab3Page {
   cards: Object[];
   data: string;
   selectedDate: string = "";
+  QR: boolean = false;
   constructor(
     private navCtrl: NavController,
     private datePicker: DatePicker,

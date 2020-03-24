@@ -11,6 +11,10 @@
 
 <ion-content>
   <ion-item>
+    <ion-label>Locatie op basis van QR-code</ion-label>
+    <ion-toggle [(ngModel)]="QR" (ionChange)="toggleChange()"></ion-toggle>
+  </ion-item>
+  <ion-item>
     <ion-label>Date</ion-label>
     <ion-input [(ngModel)]="selectedDate" (click)="showDatepicker()"></ion-input>
     <ion-checkbox id="dateCheckbox"></ion-checkbox>
