@@ -80,14 +80,15 @@ export class HandtekeningPaginaPage implements OnInit, AfterViewInit {
       alert('Please provide a signature first.');
     } else {
       const dataURL = this.signaturePad.toDataURL();
-      aJson= '{'+
-      '"name": "'+ this.sNummer + '",'+
-      '"date": "' + theDate + '",'+
-      '"location": "' + this.locatie + '",'+
-      '"signature": "'+ dataURL +'"'+      
-      '}'
-      aJson= JSON.parse(aJson);
-    } 
+      aJson = '{' +
+        '"name": "' + this.sNummer + '",' +
+        '"date": "' + theDate + '",' +
+        '"location": "' + this.locatie + '",' +
+        '"signature": "' + dataURL + '"' +
+        '}'
+      aJson = JSON.parse(aJson);
+
+    }
   }
 
   terug() {

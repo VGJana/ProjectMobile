@@ -35,7 +35,7 @@ export class Tab2Page {
       let options: NativeGeocoderOptions = {
         useLocale: true,
         maxResults: 5
-    };
+      };
 
       this.lat = 51.238048
       this.lng = 4.526831
@@ -43,11 +43,11 @@ export class Tab2Page {
       // this.lat = resp.coords.latitude
       // this.lng = resp.coords.longitude
       this.nativeGeocoder.reverseGeocode(this.lat, this.lng, options)
-      .then((result: NativeGeocoderResult[]) => {
-        console.log(JSON.stringify(result[0]))
-        this.locatie= result[0].countryCode + "&" + result[0].locality + "&" + result[0].thoroughfare + "&" + result[0].subThoroughfare
-      })
-      .catch((error: any) => console.log(error));
+        .then((result: NativeGeocoderResult[]) => {
+          console.log(JSON.stringify(result[0]))
+          this.locatie = result[0].countryCode + "&" + result[0].locality + "&" + result[0].thoroughfare + "&" + result[0].subThoroughfare
+        })
+        .catch((error: any) => console.log(error));
 
     }, er => {
       alert('Can not retrieve Location')
@@ -76,8 +76,8 @@ export class Tab2Page {
     }
   }
 
-  goBack(){
-    this.navController.pop();
+  goBack() {
+    this.navController.navigateForward('');
   }
 
   bevestigingsKnop() {
