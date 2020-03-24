@@ -44,7 +44,7 @@ export class Tab2Page {
   }
 
   loadMap() {
-    this.map = new Map("mapId").setView([51.2299993, 4.4155779], 30);
+    this.map = new Map("mapId").setView([this.lat,this.lng], 30);
     tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution:
         'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
