@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { Map, tileLayer, marker } from 'leaflet';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-import { NativeGeocoder, NativeGeocoderResult} from '@ionic-native/native-geocoder/ngx';
+import { NativeGeocoder} from '@ionic-native/native-geocoder/ngx';
+import { logging } from 'protractor';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class Tab2Page {
   address: string[];
   lat: number;
   lng: number;
-  constructor(private router: Router, public navController: NavController, private geolocation: Geolocation, private screenOrientation: ScreenOrientation, private nativeGeocoder: NativeGeocoder,) {
+  constructor(private router: Router, public navController: NavController, private geolocation: Geolocation, private screenOrientation: ScreenOrientation, public nativeGeocoder: NativeGeocoder) {
     this.lockScreenRotation();
 
     this.geolocation.getCurrentPosition(
@@ -33,8 +34,11 @@ export class Tab2Page {
 
       this.lat = resp.coords.latitude
       this.lng = resp.coords.longitude
+      
+      this.nativeGeocoder.reverseGeocode(this.lat, this.lng).then((results) => {
+      this.locatie = JSON.stringify(results[0]);
+      })
 
-      this.locatie = this.lat + "&" + this.lng;
     }, er => {
       alert('Can not retrieve Location')
     }).catch((error) => {
@@ -54,7 +58,6 @@ export class Tab2Page {
     }).addTo(this.map);
   }
 
-  // set to landscape
   lockScreenRotation() {
     try {
       this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
@@ -66,4 +69,5 @@ export class Tab2Page {
   bevestigingsKnop() {
     this.navController.navigateForward('/handtekening/'+ this.locatie);
   } 
+
 }
