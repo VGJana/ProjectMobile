@@ -68,9 +68,6 @@ export class HandtekeningPaginaPage implements OnInit, AfterViewInit {
   save() {
     //save wordt nog aangepast met ander file system
     var aJson;
-    
-
-    console.log(this.locatie)
 
     var today = new Date();
     var theDate;
@@ -83,7 +80,6 @@ export class HandtekeningPaginaPage implements OnInit, AfterViewInit {
       alert('Please provide a signature first.');
     } else {
       const dataURL = this.signaturePad.toDataURL();
-      console.log(dataURL);
       aJson= '{'+
       '"name": "'+ this.sNummer + '",'+
       '"date": "' + theDate + '",'+
