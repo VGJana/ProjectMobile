@@ -11,10 +11,13 @@ import { NavController } from '@ionic/angular';
 export class HandtekeningPaginaPage implements OnInit, AfterViewInit {
   @ViewChild('sPad', { static: true }) signatureElement;
   signaturePad: any;
-
+  sNummer: string;
+  locatie: string;
   constructor(public navController: NavController) { }
 
   ngOnInit() {
+    var aParam = window.location.pathname.split('/');
+    this.locatie = aParam[2];
   }
 
   ngAfterViewInit(): void {
@@ -63,17 +66,35 @@ export class HandtekeningPaginaPage implements OnInit, AfterViewInit {
   }
 
   save() {
+    //save wordt nog aangepast met ander file system
+    var aJson;
+    
+
+    console.log(this.locatie)
+
+    var today = new Date();
+    var theDate;
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    theDate = mm + '/' + dd + '/' + yyyy;
+
     if (this.signaturePad.isEmpty()) {
       alert('Please provide a signature first.');
     } else {
       const dataURL = this.signaturePad.toDataURL();
-      this.download(dataURL, 'signature.png'); //dit regeltje verdwijnt en wordt de code die we gebruiken om de dataURL weg te schrijven naar de databank
-    }
+      console.log(dataURL);
+      aJson= '{'+
+      '"name": "'+ this.sNummer + '",'+
+      '"date": "' + theDate + '",'+
+      '"location": "' + this.locatie + '",'+
+      '"signature": "'+ dataURL +'"'+      
+      '}'
+      aJson= JSON.parse(aJson);
+    } 
   }
 
   terug() {
-    this.navController.navigateForward('/');
+    this.navController.pop();
   }
-
-
 }

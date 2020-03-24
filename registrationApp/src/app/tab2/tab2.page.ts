@@ -14,6 +14,7 @@ import { NativeGeocoder, NativeGeocoderResult} from '@ionic-native/native-geocod
 })
 
 export class Tab2Page {
+  locatie: string;
   map: Map;
   newMarker: any;
   address: string[];
@@ -32,6 +33,8 @@ export class Tab2Page {
 
       this.lat = resp.coords.latitude
       this.lng = resp.coords.longitude
+
+      this.locatie = this.lat + "&" + this.lng;
     }, er => {
       alert('Can not retrieve Location')
     }).catch((error) => {
@@ -50,9 +53,6 @@ export class Tab2Page {
         'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
     }).addTo(this.map);
   }
-  goBack() {
-    this.navController.navigateForward('/');
-  }
 
   // set to landscape
   lockScreenRotation() {
@@ -64,6 +64,6 @@ export class Tab2Page {
   }
 
   bevestigingsKnop() {
-    this.navController.navigateForward('/handtekening');
+    this.navController.navigateForward('/handtekening/'+ this.locatie);
   } 
 }

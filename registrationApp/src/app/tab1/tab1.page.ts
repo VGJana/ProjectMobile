@@ -11,6 +11,7 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
+  locatie: string;
   qrData = 'https://ionicacademy.com/';
   scannedCode = null;
   elementType: 'url' | 'canvas' | 'img' = 'canvas';
@@ -32,7 +33,8 @@ export class Tab1Page {
     this.barcodeScanner.scan().then(
       barcodeData => {
         this.scannedCode = barcodeData.text;
-
+        this.locatie = this.scannedCode;
+        this.navController.navigateForward('/handtekening/' + this.locatie);
       }
     );
 

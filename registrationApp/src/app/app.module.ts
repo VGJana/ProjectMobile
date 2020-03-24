@@ -10,8 +10,9 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
-
-import { NativeGeocoder} from '@ionic-native/native-geocoder/ngx';
+import { DatePicker } from '@ionic-native/date-picker/ngx';
+import { DatePipe } from '@angular/common';
+import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +26,8 @@ import { NativeGeocoder} from '@ionic-native/native-geocoder/ngx';
     Base64ToGallery,
     BarcodeScanner,
     NativeGeocoder,
+    DatePicker,
+    DatePipe,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]

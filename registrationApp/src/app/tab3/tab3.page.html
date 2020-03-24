@@ -1,17 +1,31 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
+    <ion-button (click)="goBack()">
+      Back
+    </ion-button>
     <ion-title>
-      Admin
+      Admin page
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Admin</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <!--Hier moet u inhoud komen denk ik-->
+<ion-content>
+  <ion-item>
+    <ion-label>Date</ion-label>
+    <ion-input [(ngModel)]="selectedDate" (click)="showDatepicker()"></ion-input>
+    <ion-checkbox id="dateCheckbox"></ion-checkbox>
+  </ion-item>
+  <table id="example" style="width:80%; left: 50%;
+  margin-right: -50%">
+    <tr *ngFor="let card of cards;let i = index;">
+      <button class="accordion">
+        <td>{{card.name}}</td>
+        <td>{{card.date}}</td>
+        <td>{{card.location}}</td>
+      </button>
+      <div class="panel">
+        <img src="{{card.signature}}">
+      </div>
+    </tr>
+  </table>
 </ion-content>

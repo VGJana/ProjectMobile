@@ -7,7 +7,17 @@ const routes: Routes = [
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
   {
-    path: 'handtekening',
+    path: 'tab3',
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('./tab3/tab3.module').then(m => m.Tab3PageModule)
+      }
+    ]
+  },
+  {
+    path: 'handtekening/:location',
     loadChildren: () => import('./handtekening-pagina/handtekening-pagina.module').then(m => m.HandtekeningPaginaPageModule)
   }
 ];
