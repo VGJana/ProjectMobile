@@ -35,11 +35,12 @@ export class Tab2Page {
         maxResults: 5
       };
 
-      this.lat = 51.238048
-      this.lng = 4.526831
+      //this.lat = 51.238048
+      //this.lng = 4.526831
 
-      // this.lat = resp.coords.latitude
-      // this.lng = resp.coords.longitude
+      this.lat = resp.coords.latitude
+      this.lng = resp.coords.longitude
+      
       this.nativeGeocoder.reverseGeocode(this.lat, this.lng, options)
         .then((result: NativeGeocoderResult[]) => {
           console.log(JSON.stringify(result[0]))
@@ -65,7 +66,7 @@ export class Tab2Page {
         'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
     }).addTo(this.map);
   }
-  
+
   goBack() {
     this.navController.navigateForward('');
   }

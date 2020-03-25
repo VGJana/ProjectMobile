@@ -19,17 +19,20 @@
     <ion-input [(ngModel)]="selectedDate" (click)="showDatepicker()"></ion-input>
     <ion-checkbox id="dateCheckbox"></ion-checkbox>
   </ion-item>
-  <table id="example" style="width:80%; left: 50%;
-  margin-right: -50%">
-    <tr *ngFor="let card of cards;let i = index;">
-      <button class="accordion">
-        <td>{{card.name}}</td>
-        <td>{{card.date}}</td>
-        <td>{{card.location}}</td>
-      </button>
-      <div class="panel">
-        <img src="{{card.signature}}">
-      </div>
-    </tr>
-  </table>
+  <div>
+    <table id="example" style="width:80%; left: 50%; margin-right: -50%">
+      <tr *ngFor="let card of cards;let i = index;">
+        <button class="accordion">
+          <td>{{card.name}}</td>
+          <td>{{card.date}}</td>
+          <td>{{card.location}}</td>
+        </button>
+        <div class="panel">
+          <img src="{{card.signature}}">
+        </div>
+      </tr>
+    </table>
+  </div>
+  <ion-item></ion-item>
+  <div id="mapId" style="height:500px"></div>
 </ion-content>
