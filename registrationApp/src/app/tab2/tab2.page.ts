@@ -40,7 +40,7 @@ export class Tab2Page {
 
       this.lat = resp.coords.latitude
       this.lng = resp.coords.longitude
-      
+
       this.nativeGeocoder.reverseGeocode(this.lat, this.lng, options)
         .then((result: NativeGeocoderResult[]) => {
           console.log(JSON.stringify(result[0]))
@@ -54,19 +54,7 @@ export class Tab2Page {
       alert('Error getting location - ' + JSON.stringify(error))
     });
   }
-
-  ionViewDidEnter() {
-    this.loadMap();
-  }
-
-  loadMap() {
-    this.map = new Map("mapId").setView([this.lat, this.lng], 30);
-    tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution:
-        'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
-    }).addTo(this.map);
-  }
-
+  
   goBack() {
     this.navController.navigateForward('');
   }

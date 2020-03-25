@@ -29,21 +29,4 @@ export class Tab1Page {
 
   }
   
-  downloadQR() {
-    const canvas = document.querySelector('canvas') as HTMLCanvasElement;
-    const imageData = canvas.toDataURL('image/jpeg').toString();
-    console.log('data:', imageData);
-
-    let data = imageData.split(',')[1];
-
-    this.base64ToGallery.base64ToGallery(data,
-      { prefix: '_img', mediaScanner: true })
-      .then(async res => {
-        let toast = await this.toastCtrl.create({
-          header: 'QR code saved in photolibrary'
-        });
-        toast.present();
-      }, err => console.log('err:', err)
-      );
-    }
 }

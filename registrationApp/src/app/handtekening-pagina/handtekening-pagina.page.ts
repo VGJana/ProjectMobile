@@ -28,13 +28,6 @@ export class HandtekeningPaginaPage implements OnInit, AfterViewInit {
     this.signaturePad.clear();
   }
 
-  undo() {
-    const data = this.signaturePad.toData();
-    if (data) {
-      data.pop(); // remove the last dot or line
-      this.signaturePad.fromData(data);
-    }
-  }
 
   download(dataURL, filename) {
     if (navigator.userAgent.indexOf('Safari') > -1 && navigator.userAgent.indexOf('Chrome') === -1) {
