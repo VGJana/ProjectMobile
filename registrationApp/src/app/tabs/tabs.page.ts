@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 @Component({
   selector: 'app-tabs',
@@ -11,8 +12,17 @@ import { Router } from '@angular/router';
 
 export class TabsPage {
 
-  constructor(private alertCtrl: AlertController, public router: Router,) {}
+  constructor(private alertCtrl: AlertController, public router: Router, private screenOrientation: ScreenOrientation) {
+    this.lockScreenRotation();
+  }
 
+  lockScreenRotation() {
+    try {
+      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   async wrongPassword(){
     const alert = this.alertCtrl.create({

@@ -3,7 +3,6 @@ import { Map, tileLayer, marker } from 'leaflet';
 import { Router } from '@angular/router';
 import { NavController, Platform } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 import { logging } from 'protractor';
 
@@ -21,8 +20,7 @@ export class Tab2Page {
   address: string[];
   lat: number;
   lng: number;
-  constructor(private router: Router, public navController: NavController, private geolocation: Geolocation, private screenOrientation: ScreenOrientation, public nativeGeocoder: NativeGeocoder) {
-    this.lockScreenRotation();
+  constructor(private router: Router, public navController: NavController, private geolocation: Geolocation, public nativeGeocoder: NativeGeocoder) {
 
     this.geolocation.getCurrentPosition(
       {
@@ -67,15 +65,7 @@ export class Tab2Page {
         'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
     }).addTo(this.map);
   }
-
-  lockScreenRotation() {
-    try {
-      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
+  
   goBack() {
     this.navController.navigateForward('');
   }

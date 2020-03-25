@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
 import { ToastController } from '@ionic/angular';
@@ -15,18 +14,8 @@ export class Tab1Page {
   qrData = 'https://ionicacademy.com/';
   scannedCode = null;
   elementType: 'url' | 'canvas' | 'img' = 'canvas';
-  constructor(private screenOrientation: ScreenOrientation, private barcodeScanner: BarcodeScanner, private base64ToGallery: Base64ToGallery,
+  constructor(private barcodeScanner: BarcodeScanner, private base64ToGallery: Base64ToGallery,
     private toastCtrl: ToastController, public navController: NavController) {
-    this.lockScreenRotation();
-  }
-
-
-  lockScreenRotation() {
-    try {
-      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
-    } catch (error) {
-      console.error(error);
-    }
   }
 
   scanCode() {
