@@ -44,7 +44,7 @@ export class Tab2Page {
       this.nativeGeocoder.reverseGeocode(this.lat, this.lng, options)
         .then((result: NativeGeocoderResult[]) => {
           console.log(JSON.stringify(result[0]))
-          this.locatie = result[0].countryCode + "&" + result[0].locality + "&" + result[0].thoroughfare + "&" + result[0].subThoroughfare
+          this.locatie = result[0].countryCode + " & " + result[0].locality + " & " + result[0].thoroughfare + " & " + result[0].subThoroughfare
         })
         .catch((error: any) => console.log(error));
 
@@ -54,7 +54,7 @@ export class Tab2Page {
       alert('Error getting location - ' + JSON.stringify(error))
     });
   }
-  
+
   goBack() {
     this.navController.navigateForward('');
   }
