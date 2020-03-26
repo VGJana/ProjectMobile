@@ -24,7 +24,7 @@ export class TabsPage {
     }
   }
 
-  async wrongPassword(){
+  async wrongPassword() {
     const alert = this.alertCtrl.create({
       header: 'Invalid password',
       subHeader: 'The password you entered was not correct',
@@ -34,14 +34,14 @@ export class TabsPage {
     (await alert).present()
   }
 
-  async validation(){
+  async validation() {
     let pwd = "Possie";
     let alert = this.alertCtrl.create({
       header: 'Login',
       inputs: [
         {
           name: 'password',
-          placeholder: 'Password', 
+          placeholder: 'Password',
           type: 'password'
         }
       ],
@@ -56,8 +56,8 @@ export class TabsPage {
         {
           text: 'Login',
           handler: data => {
-            if (data.password ==pwd) {
-              this.router.navigateByUrl('/tab3')
+            if (data.password == pwd) {
+              this.router.navigateByUrl('tabs/tab3')
             } else {
               this.wrongPassword()
             }
