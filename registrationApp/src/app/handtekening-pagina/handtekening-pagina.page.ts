@@ -10,6 +10,8 @@ import { NavController } from '@ionic/angular';
 })
 export class HandtekeningPaginaPage implements OnInit, AfterViewInit {
   @ViewChild('sPad', { static: true }) signatureElement;
+  fileName: string;
+  dateNow;
   signaturePad: any;
   sNummer: string;
   locatie: string;
@@ -60,31 +62,66 @@ export class HandtekeningPaginaPage implements OnInit, AfterViewInit {
 
   save() {
     //save wordt nog aangepast met ander file system
-    var aJson;
-
-    var today = new Date();
-    var theDate;
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
-    theDate = mm + '/' + dd + '/' + yyyy;
 
     if (this.signaturePad.isEmpty()) {
       alert('Please provide a signature first.');
     } else {
-      const dataURL = this.signaturePad.toDataURL();
-      aJson = '{' +
-        '"name": "' + this.sNummer + '",' +
-        '"date": "' + theDate + '",' +
-        '"location": "' + this.locatie + '",' +
-        '"signature": "' + dataURL + '"' +
-        '}'
-      aJson = JSON.parse(aJson);
-
+      -this.createFile();
     }
   }
 
   terug() {
     this.navController.pop();
+  }
+
+
+  getDate() {
+    this.dateNow = new Date();
+    let currentdate = new Date()
+    var datetime = currentdate.getDate() + "&"
+      + (currentdate.getMonth() + 1) + "&"
+      + currentdate.getFullYear() + "&"
+      + currentdate.getHours() + "&"
+      + currentdate.getMinutes() + "&"
+      + currentdate.getSeconds();
+    return datetime;
+  }
+
+  createFile() {
+
+    this.fileName = this.getDate()
+    var self = this;
+
+    window.resolveLocalFileSystemURL(cordova.file.dataDirectory, successCallback, errorCallback)
+
+    function successCallback(fs) {
+      fs.getFile(self.fileName, { create: true, exclusive: true }, function (fileEntry) {
+        console.log("created file" + self.fileName);
+        const dataURL = self.signaturePad.toDataURL()
+        var aJson = '{' +
+          '"name": "' + self.sNummer + '",' +
+          '"date": "' + self.dateNow.toLocaleDateString() + '",' +
+          '"time": "' + self.dateNow.toLocaleTimeString() + '",' +
+          '"location": "' + self.locatie + '",' +
+          '"signature": "' + dataURL + '"},';
+        fileEntry.createWriter(function (fileWriter) {
+          console.log("writing to file with input" + aJson)
+          fileWriter.onwriteend = function (e) {
+            console.log(aJson);
+            alert('Write completed.');
+          };
+          fileWriter.onerror = function (e) {
+            alert('Write failed: ' + e.toString());
+          };
+
+          var blob = new Blob([aJson], { type: 'text/plain' });
+          fileWriter.write(blob);
+        }, errorCallback);
+      }, errorCallback);
+    }
+
+    function errorCallback(error) {
+      alert("ERROR: " + error.code)
+    }
   }
 }

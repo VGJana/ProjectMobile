@@ -10,7 +10,7 @@
 <ion-content>
   <section style="margin: 20px;">
     <p>Studenten nummer</p>
-    <ion-input placeholder="Bv. s123456"></ion-input>
+    <ion-input [(ngModel)]="sNummer" placeholder="Bv. s123456"></ion-input>
     <br>
     <div class="signature-pad">
       <div class="signature-pad--body">
@@ -23,7 +23,6 @@
       <div class="row">
         <div class="col-6">
           <ion-button (click)="clear()">Clear</ion-button>
-          <ion-button (click)="undo()">Undo</ion-button>
           <ion-button (click)="save()">Save</ion-button>
         </div>
       </div>

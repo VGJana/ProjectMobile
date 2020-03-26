@@ -13,6 +13,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
   styleUrls: ['tab3.page.scss'],
 })
 export class Tab3Page {
+  testdata: string = "[";
   locatie: string;
   map: Map;
   newMarker: any;
@@ -24,7 +25,7 @@ export class Tab3Page {
   data: string;
   selectedDate: string = "";
   QR: boolean = false;
-  
+
   constructor(private navCtrl: NavController, private datePicker: DatePicker, private datePipe: DatePipe, public platform: Platform, private router: Router, public navController: NavController, private geolocation: Geolocation, public nativeGeocoder: NativeGeocoder) {
     this.platform.ready().then(() => {
       this.selectedDate = this.datePipe.transform(new Date(), "dd-MM-yyyy")
@@ -50,7 +51,7 @@ export class Tab3Page {
 
       this.lat = resp.coords.latitude
       this.lng = resp.coords.longitude
-      
+
       this.nativeGeocoder.reverseGeocode(this.lat, this.lng, options)
         .then((result: NativeGeocoderResult[]) => {
           console.log(JSON.stringify(result[0]))
@@ -95,6 +96,7 @@ export class Tab3Page {
       this.selectedDate = this.datePipe.transform(date, "dd-MM-yyyy")
     })
   }
+
   ngAfterViewInit() {
     var acc = document.getElementsByClassName("accordion");
     var i;
@@ -111,4 +113,79 @@ export class Tab3Page {
       });
     }
   }
+
+  readFile(name, last) {
+    var self = this;
+    window.resolveLocalFileSystemURL(cordova.file.dataDirectory, successCallback, errorCallback)
+    function successCallback(fs) {
+      fs.getFile(name, {}, function (fileEntry) {
+        fileEntry.file(function (file) {
+          var reader = new FileReader();
+          reader.onloadend = function (e) {
+            if(last) {
+              self.testdata += this.result
+            }else{
+              self.testdata += this.result + "]"
+              console.log("data: " + self.testdata)
+            }
+            
+          };
+          reader.readAsText(file);
+        }, errorCallback);
+      }, errorCallback);
+    }
+
+    function errorCallback(error) {
+      alert("ERROR: " + error.code)
+    }
+  }
+
+
+  readDirectory() {
+    var self = this;
+    window.resolveLocalFileSystemURL(cordova.file.dataDirectory, successCallback, errorCallback)
+
+    function successCallback(fs) {
+      var directoryReader = fs.createReader();
+      directoryReader.readEntries(onSuccessCallback, errorCallback);
+    }
+
+    function onSuccessCallback(entries) {
+      console.log("reading through files. Entries length: " + entries.length)
+      for (var i = 0; i < entries.length; i++) {
+        if (!entries[i].isDirectory && i!= entries.length-1) {
+          self.readFile(entries[i].name, false)
+          //self.delete(entries[i].name); //Doe dit als ge alle files wilt wegdoen
+          i++;
+        }else if(!entries[i].isDirectory && i== entries.length-1){
+          self.readFile(entries[i].name, true)
+          //self.delete(entries[i].name); //Doe dit als ge alle files wilt wegdoen
+          i++;
+        }
+      }
+    }
+    function errorCallback(error) {
+      alert("ERROR: " + error.code)
+    }
+  }
+
+  delete(name) {
+    window.resolveLocalFileSystemURL(cordova.file.dataDirectory, successCallback, errorCallback)
+
+    function successCallback(fs) {
+      fs.getFile(name, { create: false }, function (fileEntry) {
+        fileEntry.remove(function (file) {
+          alert("file removed: " + name);
+        }, function (error) {
+          alert("error occurred: " + error.code);
+        }, function () {
+          alert("file does not exist");
+        });
+      });
+    }
+    function errorCallback(error) {
+      alert("ERROR: " + error.code)
+    }
+  }
+
 }

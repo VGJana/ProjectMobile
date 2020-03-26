@@ -36,6 +36,7 @@
     "angular-signature-pad": "0.0.14",
     "barcode-scanner": "0.0.2",
     "cordova-android": "^8.1.0",
+    "cordova-plugin-file": "^6.0.2",
     "cordova-plugin-geolocation": "^4.0.2",
     "cordova-plugin-nativegeocoder": "^3.2.2",
     "core-js": "^2.5.4",
@@ -95,7 +96,8 @@
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
       "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-nativegeocoder": {}
+      "cordova-plugin-nativegeocoder": {},
+      "cordova-plugin-file": {}
     },
     "platforms": [
       "android"

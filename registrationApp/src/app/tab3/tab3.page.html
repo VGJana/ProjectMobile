@@ -10,9 +10,10 @@
 </ion-header>
 
 <ion-content>
+  <ion-button (click)="readDirectory()">Check thing</ion-button>
   <ion-item>
     <ion-label>Locatie op basis van QR-code</ion-label>
-    <ion-toggle [(ngModel)]="QR" (ionChange)="toggleChange()"></ion-toggle>
+    <ion-toggle [(ngModel)]="QR"></ion-toggle>
   </ion-item>
   <ion-item>
     <ion-label>Date</ion-label>
