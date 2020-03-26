@@ -10,7 +10,6 @@ import { NavController } from '@ionic/angular';
 })
 export class HandtekeningPaginaPage implements OnInit, AfterViewInit {
   @ViewChild('sPad', { static: true }) signatureElement;
-  fileName: string;
   dateNow;
   signaturePad: any;
   sNummer: string;
@@ -48,6 +47,7 @@ export class HandtekeningPaginaPage implements OnInit, AfterViewInit {
     }
   }
 
+
   dataURLToBlob(dataURL) {
     const parts = dataURL.split(';base64,');
     const contentType = parts[0].split(':')[1];
@@ -66,7 +66,7 @@ export class HandtekeningPaginaPage implements OnInit, AfterViewInit {
     if (this.signaturePad.isEmpty()) {
       alert('Please provide a signature first.');
     } else {
-      -this.createFile();
+      this.createFile()
     }
   }
 
@@ -78,43 +78,47 @@ export class HandtekeningPaginaPage implements OnInit, AfterViewInit {
   getDate() {
     this.dateNow = new Date();
     let currentdate = new Date()
-    var datetime = currentdate.getDate() + "&"
-      + (currentdate.getMonth() + 1) + "&"
-      + currentdate.getFullYear() + "&"
-      + currentdate.getHours() + "&"
-      + currentdate.getMinutes() + "&"
+    var datetime = currentdate.getDate() +""
+      + (currentdate.getMonth() + 1)+""
+      + currentdate.getFullYear()+""
+      + currentdate.getHours()+""
+      + currentdate.getMinutes()+""
       + currentdate.getSeconds();
     return datetime;
   }
 
   createFile() {
+    var aFileName;
+    var theId = this.getDate();
+     aFileName = theId + ".json"
 
-    this.fileName = this.getDate()
+
     var self = this;
 
     window.resolveLocalFileSystemURL(cordova.file.dataDirectory, successCallback, errorCallback)
 
     function successCallback(fs) {
-      fs.getFile(self.fileName, { create: true, exclusive: true }, function (fileEntry) {
-        console.log("created file" + self.fileName);
+      fs.getFile(aFileName, { create: true, exclusive: true }, function (fileEntry) {
+        var input;
         const dataURL = self.signaturePad.toDataURL()
-        var aJson = '{' +
-          '"name": "' + self.sNummer + '",' +
-          '"date": "' + self.dateNow.toLocaleDateString() + '",' +
-          '"time": "' + self.dateNow.toLocaleTimeString() + '",' +
-          '"location": "' + self.locatie + '",' +
-          '"signature": "' + '"}';
-        fileEntry.createWriter(function (fileWriter) {
-          console.log("writing to file with input" + aJson)
+
+        input = {
+          id:theId ,
+          name: self.sNummer,
+          date:self.dateNow.toLocaleDateString(),
+          time: self.dateNow.toLocaleTimeString() ,
+          location: self.locatie ,
+          signatureURL: dataURL
+        };
+          fileEntry.createWriter(function (fileWriter) {
           fileWriter.onwriteend = function (e) {
-            console.log(aJson);
-            alert('Write completed.');
+            console.log("Wrote file")
           };
           fileWriter.onerror = function (e) {
             alert('Write failed: ' + e.toString());
           };
 
-          var blob = new Blob([aJson], { type: 'text/plain' });
+          var blob = new Blob([JSON.stringify(input)], { type: 'text/plain' });
           fileWriter.write(blob);
         }, errorCallback);
       }, errorCallback);

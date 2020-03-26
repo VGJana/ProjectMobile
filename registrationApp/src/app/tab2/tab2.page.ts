@@ -35,16 +35,16 @@ export class Tab2Page {
         maxResults: 5
       };
 
-      //this.lat = 51.238048
-      //this.lng = 4.526831
+      this.lat = 51.238048
+      this.lng = 4.526831
 
-      this.lat = resp.coords.latitude
-      this.lng = resp.coords.longitude
+      // this.lat = resp.coords.latitude
+      // this.lng = resp.coords.longitude
 
       this.nativeGeocoder.reverseGeocode(this.lat, this.lng, options)
         .then((result: NativeGeocoderResult[]) => {
           console.log(JSON.stringify(result[0]))
-          this.locatie = result[0].countryCode + " & " + result[0].locality + " & " + result[0].thoroughfare + " & " + result[0].subThoroughfare
+          this.locatie = result[0].countryCode + "&" + result[0].locality + "&" + result[0].thoroughfare + "&" + result[0].subThoroughfare
         })
         .catch((error: any) => console.log(error));
 

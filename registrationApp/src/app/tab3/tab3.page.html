@@ -10,6 +10,7 @@
 </ion-header>
 
 <ion-content>
+  <ion-button (click)="clearDirectory()">dddd</ion-button>
   <ion-item>
     <ion-label>Locatie op basis van QR-code</ion-label>
     <ion-toggle [(ngModel)]="QR"></ion-toggle>
@@ -25,15 +26,15 @@
   <div *ngIf="cards != ''">
     <table id="example" style="width:80%; left: 50%; margin-right: -50%">
       <tr *ngFor="let card of cards;let i = index;">
-        <button class="accordion">
+        <button class="accordion" (click)="toggleAccordian($event, i)">
           <td>{{card.name}}</td>
           <td>{{card.date}}</td>
           <td>{{card.time}}</td>
           <td>{{card.location}}</td>
-        </button>
-        <div class="panel">
-          <img src="{{card.signature}}">
-        </div>
+          </button>
+          <div class="panel" hide="!card.isActive">
+            <img src="{{card.signatureURL}}">
+          </div>
       </tr>
     </table>
   </div>
