@@ -61,12 +61,11 @@ export class HandtekeningPaginaPage implements OnInit, AfterViewInit {
   }
 
   save() {
-    //save wordt nog aangepast met ander file system
 
     if (this.signaturePad.isEmpty()) {
       alert('Please provide a signature first.');
     } else {
-      this.createFile()
+      this.createFile();
     }
   }
 
@@ -78,11 +77,11 @@ export class HandtekeningPaginaPage implements OnInit, AfterViewInit {
   getDate() {
     this.dateNow = new Date();
     let currentdate = new Date()
-    var datetime = currentdate.getDate() +""
-      + (currentdate.getMonth() + 1)+""
-      + currentdate.getFullYear()+""
-      + currentdate.getHours()+""
-      + currentdate.getMinutes()+""
+    var datetime = currentdate.getDate() + ""
+      + (currentdate.getMonth() + 1) + ""
+      + currentdate.getFullYear() + ""
+      + currentdate.getHours() + ""
+      + currentdate.getMinutes() + ""
       + currentdate.getSeconds();
     return datetime;
   }
@@ -90,7 +89,7 @@ export class HandtekeningPaginaPage implements OnInit, AfterViewInit {
   createFile() {
     var aFileName;
     var theId = this.getDate();
-     aFileName = theId + ".json"
+    aFileName = theId + ".json"
 
 
     var self = this;
@@ -103,16 +102,18 @@ export class HandtekeningPaginaPage implements OnInit, AfterViewInit {
         const dataURL = self.signaturePad.toDataURL()
 
         input = {
-          id:theId ,
+          id: theId,
           name: self.sNummer,
-          date:self.dateNow.toLocaleDateString(),
-          time: self.dateNow.toLocaleTimeString() ,
-          location: self.locatie ,
+          date: self.dateNow.toLocaleDateString(),
+          time: self.dateNow.toLocaleTimeString(),
+          location: self.locatie,
           signatureURL: dataURL
         };
-          fileEntry.createWriter(function (fileWriter) {
+        fileEntry.createWriter(function (fileWriter) {
           fileWriter.onwriteend = function (e) {
             console.log("Wrote file")
+            alert("Succesvol opgeslagen");
+            self.terug();
           };
           fileWriter.onerror = function (e) {
             alert('Write failed: ' + e.toString());

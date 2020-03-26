@@ -35,7 +35,7 @@ export class TabsPage {
   }
 
   async validation() {
-    let pwd = "Possie";
+    let pwd = "Password";
     let alert = this.alertCtrl.create({
       header: 'Login',
       inputs: [
