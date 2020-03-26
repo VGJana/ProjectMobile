@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 import { Map, tileLayer, marker } from 'leaflet';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { withModule } from '@angular/core/testing';
 
 @Component({
   selector: 'app-tab3',
@@ -13,7 +14,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
   styleUrls: ['tab3.page.scss'],
 })
 export class Tab3Page {
-  testdata: string = "[";
+
   locatie: string;
   map: Map;
   newMarker: any;
@@ -21,17 +22,16 @@ export class Tab3Page {
   lat: number;
   lng: number;
 
-  cards: Object[];
-  data: string;
+  cards: any;
   selectedDate: string = "";
   QR: boolean = false;
 
   constructor(private navCtrl: NavController, private datePicker: DatePicker, private datePipe: DatePipe, public platform: Platform, private router: Router, public navController: NavController, private geolocation: Geolocation, public nativeGeocoder: NativeGeocoder) {
+    this.readDirectory()
+
     this.platform.ready().then(() => {
       this.selectedDate = this.datePipe.transform(new Date(), "dd-MM-yyyy")
     })
-    this.data = require('../data/data.json');
-    this.cards = JSON.parse(JSON.stringify(this.data));
 
     this.geolocation.getCurrentPosition(
       {
@@ -114,30 +114,32 @@ export class Tab3Page {
     }
   }
 
-  readFile(name, last) {
-    var self = this;
-    window.resolveLocalFileSystemURL(cordova.file.dataDirectory, successCallback, errorCallback)
-    function successCallback(fs) {
-      fs.getFile(name, {}, function (fileEntry) {
-        fileEntry.file(function (file) {
-          var reader = new FileReader();
-          reader.onloadend = function (e) {
-            if(last) {
-              self.testdata += this.result
-            }else{
-              self.testdata += this.result + "]"
-              console.log("data: " + self.testdata)
-            }
-            
-          };
-          reader.readAsText(file);
-        }, errorCallback);
-      }, errorCallback);
-    }
 
-    function errorCallback(error) {
-      alert("ERROR: " + error.code)
-    }
+
+  readFile(name): Promise<string> {
+    return new Promise((resolve, reject) => {
+      window.resolveLocalFileSystemURL(cordova.file.dataDirectory, successCallback, errorCallback)
+
+      function successCallback(fs) {
+
+        fs.getFile(name, {}, function (fileEntry) {
+
+          fileEntry.file(function (file) {
+            var reader = new FileReader();
+            reader.onloadend = function (e) {
+              resolve(this.result.toString())
+            };
+
+            reader.readAsText(file);
+
+          }, errorCallback);
+
+        }, errorCallback);
+      }
+      function errorCallback(error) {
+        alert("ERROR: " + error.code)
+      }
+    })
   }
 
 
@@ -151,23 +153,32 @@ export class Tab3Page {
     }
 
     function onSuccessCallback(entries) {
-      console.log("reading through files. Entries length: " + entries.length)
+      let promises = [];
       for (var i = 0; i < entries.length; i++) {
-        if (!entries[i].isDirectory && i!= entries.length-1) {
-          self.readFile(entries[i].name, false)
-          //self.delete(entries[i].name); //Doe dit als ge alle files wilt wegdoen
-          i++;
-        }else if(!entries[i].isDirectory && i== entries.length-1){
-          self.readFile(entries[i].name, true)
-          //self.delete(entries[i].name); //Doe dit als ge alle files wilt wegdoen
-          i++;
+        if (!entries[i].isDirectory) {
+          // promises.push(self.readFile(entries[i].name).then(result => {
+          //   console.log("Result: " + result)
+          //   var theJson = JSON.parse(result);
+          //   console.log("Parsed Json name: " + theJson.name);
+          //   return theJson;
+          // }))
+
+          self.delete(entries[i].name)
         }
       }
+
+      Promise.all(promises).then(results => {
+        self.cards = results
+        console.log(self.cards)
+      })
     }
+
     function errorCallback(error) {
       alert("ERROR: " + error.code)
     }
   }
+
+
 
   delete(name) {
     window.resolveLocalFileSystemURL(cordova.file.dataDirectory, successCallback, errorCallback)
@@ -187,5 +198,4 @@ export class Tab3Page {
       alert("ERROR: " + error.code)
     }
   }
-
 }

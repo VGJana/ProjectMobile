@@ -103,7 +103,7 @@ export class HandtekeningPaginaPage implements OnInit, AfterViewInit {
           '"date": "' + self.dateNow.toLocaleDateString() + '",' +
           '"time": "' + self.dateNow.toLocaleTimeString() + '",' +
           '"location": "' + self.locatie + '",' +
-          '"signature": "' + dataURL + '"},';
+          '"signature": "' + '"}';
         fileEntry.createWriter(function (fileWriter) {
           console.log("writing to file with input" + aJson)
           fileWriter.onwriteend = function (e) {

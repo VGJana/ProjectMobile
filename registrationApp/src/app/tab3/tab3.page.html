@@ -10,7 +10,6 @@
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="readDirectory()">Check thing</ion-button>
   <ion-item>
     <ion-label>Locatie op basis van QR-code</ion-label>
     <ion-toggle [(ngModel)]="QR"></ion-toggle>
@@ -20,12 +19,16 @@
     <ion-input [(ngModel)]="selectedDate" (click)="showDatepicker()"></ion-input>
     <ion-checkbox id="dateCheckbox"></ion-checkbox>
   </ion-item>
-  <div>
+  <div *ngIf="cards== ''">
+    No data loaded
+  </div>
+  <div *ngIf="cards != ''">
     <table id="example" style="width:80%; left: 50%; margin-right: -50%">
       <tr *ngFor="let card of cards;let i = index;">
         <button class="accordion">
           <td>{{card.name}}</td>
           <td>{{card.date}}</td>
+          <td>{{card.time}}</td>
           <td>{{card.location}}</td>
         </button>
         <div class="panel">
